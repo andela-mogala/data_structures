@@ -1,36 +1,40 @@
-function Node(value, next) {
-  this.value = value;
-  this.next = next;
-}
+class Node {
+  constructor(value, next) {
+    this._value = value
+    this._next = next
+  }
 
-Node.prototype.getValue = function() {
-  return this.value;
-};
+  get value() {
+    return this._value
+  }
 
-Node.prototype.setValue = function(value) {
-  this.value = value;
-};
+  set value(value) {
+    if (value != null) {
+      this._value = value
+    }
+  }
 
-Node.prototype.setNext = function(next) {
-  this.next= next;
-};
+  get next() {
+    return this._next
+  }
 
-Node.prototype.getNext = function() {
-  return this.next;
-};
-
-const first = new Node(5);
-const second = new Node(2);
-const third = new Node(10);
-
-first.setNext(second);
-second.setNext(third);
-
-function printList(node) {
-  while(node) {
-    console.log(node.getValue());
-    node = node.getNext();
+  set next(next) {
+    this._next = next
   }
 }
 
-module.exports = { Node, printList };
+const first = new Node(5)
+const second = new Node(2)
+const third = new Node(10)
+
+first.next = second
+second.next = third
+
+function printList(node) {
+  while(node) {
+    console.log(node.value);
+    node = node.next
+  }
+}
+
+module.exports = { Node, printList }

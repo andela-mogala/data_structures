@@ -1,57 +1,64 @@
 const Node = require('./node').Node;
-const printList = require('./node').printList;
 
 class LinkedList {
   constructor() {
-    this.head = null;
-    this.tail = null;
-    this.count = 0;
+    this._head = null;
+    this._tail = null;
+    this._count = 0;
   }
 
   addFirst(node) {
-    const temp = this.head;
-    this.head = node;
-    this.head.setNext(temp);
-    this.count++;
-    if (this.count === 1) {
-      this.tail = this.head;
+    const temp = this._head;
+    this._head = node;
+    this._head.next = temp;
+    this._count++;
+    if (this._count === 1) {
+      this._tail = this._head;
     }
   }
 
   addLast(node) {
-    if (this.count === 0) {
-      this.head = this.tail;
+    if (this._count === 0) {
+      this._head = this._tail;
     } else {
-      this.tail.setNext(node);
+      this._tail.next = node;
     }
-    this.tail = node;
-    this.count++;
+    this._tail = node;
+    this._count++;
   }
 
   removeFirst() {
-    if (this.count !== 0) {
-      this.head = this.head.getNext();
-      this.count--;
-      if (this.count === 0) {
-        this.tail = null;
+    if (this._count !== 0) {
+      this._head = this._head.next;
+      this._count--;
+      if (this._count === 0) {
+        this._tail = null;
       }
     }
   }
 
   removeLast() {
-    if (this.count != 0) {
-      if (this.count === 1) {
-        this.head = null;
-        this.tail = null;
+    if (this._count != 0) {
+      if (this._count === 1) {
+        this._head = null;
+        this._tail = null;
       } else {
-        let current = this.head;
-        while (current.getNext() !== this.tail) {
-          current = current.getNext();
+        let current = this._head;
+        while (current.next !== this._tail) {
+          current = current.next;
         }
-        current.setNext(null);
-        this.tail = current;
+        current.next = null;
+        this._tail = current;
       }
-      this.count--;
+      this._count--;
+    }
+  }
+
+  *[Symbol.iterator]() {
+    let current  = this._head;
+    while (current != null) {
+      yield current.value;
+      current = current.next;
     }
   }
 }
@@ -67,15 +74,22 @@ ll.addFirst(first);
 ll.addFirst(second);
 ll.addLast(third);
 
-console.log('Print All');
-printList(ll.head);
+
+for (let node of ll) {
+  console.log(node);
+}
 
 ll.removeFirst();
 console.log('Remove first')
-printList(ll.head);
+for (let node of ll) {
+  console.log(node);
+}
 
 ll.removeLast();
 console.log('Remove Last')
-printList(ll.head);
+for (let node of ll) {
+  console.log(node);
+}
+
 
 module.exports = { LinkedList };
